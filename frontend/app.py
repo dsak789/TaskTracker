@@ -19,7 +19,7 @@ if "login" not in st.session_state:
     auth.authentication()
 else:
     st.sidebar.write("Login as ",st.session_state["login"])
-
+    st.sidebar.image(st.session_state.image)
 
     tks.tasks()
 

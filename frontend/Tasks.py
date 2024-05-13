@@ -51,14 +51,21 @@ def visualizetasks(tasks):
         # st.write(f"Title: , Description:, Status: {res['status']}")
         c.write(f"Status: {res['status']}")
         if res['status'] != "Completed":
-            drop = ["Update Status","In Progess","Completed"] if res['status'] == "Todo" else ["Update Status","Todo","Completed"]
-            status = st.selectbox("",drop,key=res['_id'])
-            if status:
-                id = res['id']
-                uptend = (f'http://localhost:8000/updatetask/{id}/{status}')
-                req.get(uptend)
+            drop = ["In Progess","Completed"] if res['status'] == "Todo" else ["Todo","Completed"]
+            # status = st.radio("",drop,key=res['_id'])
+            with st.expander("Update Status"):
+                for btn in drop:
+                    if st.button(btn,key=f"{btn}_{res['_id']}"):
+                        id = res['id']
+                        uptend = (f'http://localhost:8000/updatetask/{id}/{btn}')
+                        req.get(uptend)
+                        st.experimental_rerun()
         else:
             c.success("Task Completed")
+    # if status :
+    #     id = res['id']
+    #     uptend = (f'http://localhost:8000/updatetask/{id}/{status}')
+    #     req.get(uptend)
         st.markdown("")
 
 def tasks():

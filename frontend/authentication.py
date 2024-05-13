@@ -18,6 +18,9 @@ def login():
                 st.sidebar.write(res['user']['githubid'])
                 st.session_state["login"] = res['user']['name']
                 st.session_state["userid"] = res['user']['username']
+                st.session_state["githubid"] = res['user']['githubid']
+                git = req.get(f'https://api.github.com/users/{st.session_state.githubid}')
+                st.session_state.image = git.json()['avatar_url']
             # st.balloons()
             # st.sidebar.write("Role",reqstatus.json())['role']
             # st.sidebar.json(reqstatus.json())

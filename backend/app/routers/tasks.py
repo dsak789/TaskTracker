@@ -26,14 +26,17 @@ async def gettasks():
 
 
 
-@taskrouter.get('/tasksagg')
-async def tasks():
+@taskrouter.get('/tasks/{userid}')
+async def tasks(userid : str ):
     try:
-        cursor = list(tasksCollection.aggregate([{'$match':{'task':'someting5'}},{'$project':{'_id':0}}]))
-        if tasks:
-            return {"message": "Data Retrieved", "Tasks": cursor}
+        res =  tasksCollection.aggregate([{'$match':{'userid':userid}}])
+        res = [task async for task in res]
+        for task in res:
+            task['_id'] = str(task['_id'])
+        if res:
+            return {"message": "Data Retrieved", "Tasks": res}
         else:
-            return {"message": "No tasks found with the given criteria"}
+            return {"message": "No tasks found (or) You have not added Any Task yet "}
     except Exception as e:
         return {"message": "An error occurred", "error": str(e)}
 

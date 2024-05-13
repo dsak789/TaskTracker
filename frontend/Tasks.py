@@ -9,9 +9,13 @@ def addtask():
     description = st.text_input("Description of Task")
     status = st.selectbox("Status",["Todo","In Progress","Completed"])
     prior = st.slider("Priority")
+    githubid = st.session_state.userid
+
+
     if st.button("ADD TASK"):
         taskdata={
             "id":prior,
+            "userid":githubid,
             "title":title,
             "description":description,
             "status":status
@@ -25,17 +29,18 @@ def addtask():
             st.error("Error adding task")
 
 def gettasks():
-    adminsend = 'http://localhost:8000/tasks'
+    githubid = st.session_state.userid
+    adminsend = (f'http://localhost:8000/tasks/{githubid}')
     resposnes = req.get(adminsend)
-    if resposnes.status_code == 200:
+    if resposnes.json()["message"]=="Data Retrieved":
         st.write("ALL TASKS")
         # st.json(resposnes.json())
-        resposnes = resposnes.json()
+        resposnes = resposnes.json()['Tasks']
         # if "message" in resposnes:
         #     st.write("Tasks There")
         # else:
         #     st.write("Tasks not There")
-        resposnes = resposnes["Tasks"]
+        # resposnes = resposnes["Tasks"]
         for res in resposnes:
             c= st.container()
             c.success(f"{res['title']}")
@@ -43,7 +48,7 @@ def gettasks():
             # st.write(f"Title: , Description:, Status: {res['status']}")
             c.caption(f"{res['status']}")
     else:
-        st.error(f"Failed to get data. Status Code is {resposnes.status_code}")
+        st.warning(f"{resposnes.json()['message']}")
     
 def tasks():
      tab1, tab2 = st.tabs(["All TASKS","Add New TASK"])

@@ -7,12 +7,18 @@ def login():
     usrpwd = st.text_input("Password",type="password")
     if st.button("LOGIN"):
 
-        payload = {"credentials":{"username":usernm, "password":usrpwd} }        
-        reqstatus = req.post('https://api.jntugv.edu.in/api/admins/login',json=payload)
+        payload = {"username":usernm, "password":usrpwd}        
+        reqstatus = req.post('http://localhost:8000/login',json=payload)
         if reqstatus.status_code == 200:
-            st.balloons()
-            st.session_state["login"] = reqstatus.json()['admin']
-            st.sidebar.write("Role",reqstatus.json())['role']
+            res=reqstatus.json()
+            if res['message'] == "Login Successfull":
+                st.balloons()
+                st.sidebar.write(res['user']['name'])
+                st.sidebar.write(res['user']['githubid'])
+                st.session_state["login"] = res['user']['name']
+                st.session_state["userid"] = res['user']['username']
+            # st.balloons()
+            # st.sidebar.write("Role",reqstatus.json())['role']
             # st.sidebar.json(reqstatus.json())
 
         else:

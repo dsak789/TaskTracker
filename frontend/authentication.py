@@ -1,5 +1,6 @@
 import streamlit as st
 import requests as req
+import bcrypt
 
 def login():
     st.header("LOGIN")
@@ -23,31 +24,39 @@ def login():
 
         else:
             st.error(reqstatus)
+def encryptpwd(pwd : str):
+    salt = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'),salt)
+    print(hashed_pwd.decode('utf-8'))
+    return hashed_pwd.decode('utf-8')
 
- 
+
 def register():
     st.header("REGISTER")
     name = st.text_input("Enter Your Name")
-    designation = st.text_input("Enter GitHub Id")
+    githubid = st.text_input("Enter GitHub Id")
     email = st.text_input("Enter Email")
     usernm = st.text_input("Enter Username")
-    usepwd = st.text_input("Type Password")
-    cnfuserpwd = st.text_input("Confirm Password")
+    usepwd = st.text_input("Type Password",type='password')
+    st.caption("Password length should be 7 Chars and combination of AlphaNumeric and Special Chars")
+    cnfuserpwd = st.text_input("Confirm Password",type='password')
+    if usepwd != cnfuserpwd:
+        st.warning("Password Mismath...!")
     if st.button("Register"):
-        regiend = 'http:'
-        regi = {
-            "id":"",
+        regiend = 'http://localhost:8000/adduser'
+        regidata = {
+            "id":0,
             "name":name,
             "email":email,
+            "githubid":githubid,
             "username":usernm,
-            "password":usepwd 
+            "password":encryptpwd(usepwd) 
         }
-        res = req.post()
-        st.session_state.name = name
-        st.write(st.session_state.name)
-        st.success("Registration Successfull")
-        st.balloons()
-        st._rerun()
+        res = req.post(regiend,json=regidata)
+        if res.status_code == 200:
+            st.success("Registration Successfull")
+            st.balloons()
+            st._rerun()
 
 def authentication():
     tab1,tab2 = st.tabs(["Login","Register"])

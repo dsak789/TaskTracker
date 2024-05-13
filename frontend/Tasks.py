@@ -39,15 +39,28 @@ def gettasks():
         # else:
         #     st.write("Tasks not There")
         # resposnes = resposnes["Tasks"]
-        for res in resposnes:
-            c= st.container()
-            c.success(f"{res['title']}")
-            c.write(f" {res['description']}")
-            # st.write(f"Title: , Description:, Status: {res['status']}")
-            c.caption(f"{res['status']}")
+        visualizetasks(resposnes)
     else:
         st.warning(f"{resposnes.json()['message']}")
     
+def visualizetasks(tasks):
+    for res in tasks:
+        c= st.container()
+        c.success(f"{res['title']}")
+        c.caption(f" {res['description']}")
+        # st.write(f"Title: , Description:, Status: {res['status']}")
+        c.write(f"Status: {res['status']}")
+        if res['status'] != "Completed":
+            drop = ["Update Status","In Progess","Completed"] if res['status'] == "Todo" else ["Update Status","Todo","Completed"]
+            status = st.selectbox("",drop,key=res['_id'])
+            if status:
+                id = res['id']
+                uptend = (f'http://localhost:8000/updatetask/{id}/{status}')
+                req.get(uptend)
+        else:
+            c.success("Task Completed")
+        st.markdown("")
+
 def tasks():
      tab1, tab2 = st.tabs(["All TASKS","Add New TASK"])
      with tab1:

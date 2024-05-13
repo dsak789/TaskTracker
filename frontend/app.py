@@ -2,14 +2,12 @@ import streamlit as st
 # import requests
 import authentication as auth
 import Tasks as tks
-
-
 st.set_page_config(
     page_title="Task Tracker",
     menu_items=None,
     initial_sidebar_state="auto",
     layout="centered",
-    page_icon="👨🏻‍💻",
+    page_icon="👨🏻",
     
 )
 

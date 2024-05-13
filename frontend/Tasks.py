@@ -1,7 +1,5 @@
 import streamlit as st 
 import requests as req 
-import pandas as pd
-import folium
 
 def addtask():
     addtaskend = 'http://127.0.0.1:8000/addtask'

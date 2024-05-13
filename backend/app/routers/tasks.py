@@ -41,8 +41,15 @@ async def tasks(userid : str ):
         return {"message": "An error occurred", "error": str(e)}
 
 @taskrouter.put('/updatetask/{taskid}')
-async def update_task(taskid:str, task :Task):
-    res = await tasksCollection.update_one({'id':int(taskid)},{"$set":task.dict()})
+async def update_task(taskid:int, task :Task):
+    res = await tasksCollection.update_one({'id':(taskid)},{"$set":task.dict()})
+    if res.modified_count == 1:
+        return{'message':"Task Updated"}
+    else:
+        return{'message':"Task not Updated"}
+@taskrouter.get('/updatetask/{taskid}/{status}')
+async def update_task(taskid:int, status :str):
+    res = await tasksCollection.update_one({'id':(taskid)},{"$set":{'status':status}})
     if res.modified_count == 1:
         return{'message':"Task Updated"}
     else:

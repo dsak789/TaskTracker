@@ -2,19 +2,30 @@ from fastapi import APIRouter
 from app.dbconfig import userCollection
 from app.models.userModel import User
 from app.models.loginModel import Login
-
+import bcrypt
 
 userrouter = APIRouter()
+
+def encryptpwd(pwd : str):
+    salt = bcrypt.gensalt()
+    hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'),salt)
+    print(hashed_pwd.decode('utf-8'))
+    return hashed_pwd.decode('utf-8')
+
+def verifypwd(pwd : str, hashedpwd : str):
+    verify = bcrypt.checkpw(pwd.encode('utf-8'),hashedpwd.encode('utf-8'))
+    return verify
 
 
 @userrouter.post('/login')
 async def login(cred : Login):
     creds = cred.dict()
     # print(creds)
-    res = await userCollection.find_one({'username':creds['username'],'password':creds['password']})
+    res = await userCollection.find_one({'username':creds['username']})
     if res:
-        log = {"name":res['name'],'username':res['username'],'githubid':res['githubid']}
-        return{"message":"Login Successfull",'user':log}
+        if verifypwd(creds['password'],res['password']):
+            log = {"name":res['name'],'username':res['username'],'githubid':res['githubid']}
+            return{"message":"Login Successfull",'user':log}
 
 @userrouter.post('/adduser')
 async def adduser(user : User):

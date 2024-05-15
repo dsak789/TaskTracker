@@ -46,20 +46,27 @@ def gettasks():
 def visualizetasks(tasks):
     for res in tasks:
         c= st.container()
-        c.success(f"{res['title']}")
+        c.warning(f"{res['title']}")
         c.caption(f" {res['description']}")
-        # st.write(f"Title: , Description:, Status: {res['status']}")
         c.write(f"Status: {res['status']}")
         if res['status'] != "Completed":
-            drop = ["In Progess","Completed"] if res['status'] == "Todo" else ["Todo","Completed"]
+            if res['status'] == "Todo":
+                drop = ["In Progress","Completed","Delete","Archieve"] 
+            elif res['status'] == "Archieve":
+                drop = ["Todo","In Progress","Completed","Delete"] 
+            else :
+                drop =["Todo","Completed","Delete","Archieve"]
             # status = st.radio("",drop,key=res['_id'])
             with st.expander("Update Status"):
                 for btn in drop:
                     if st.button(btn,key=f"{btn}_{res['_id']}"):
                         id = res['id']
                         uptend = (f'http://localhost:8000/updatetask/{id}/{btn}')
-                        req.get(uptend)
+                        delend = (f'http://localhost:8000/deletetask/{id}')
+                        query = delend if btn == 'Delete' else uptend
+                        req.get(query)
                         st.experimental_rerun()
+                st.warning("Task once Deleted Task cannot be Retrived. Instead you can Archieve the Task")    
         else:
             c.success("Task Completed")
     # if status :
@@ -68,10 +75,50 @@ def visualizetasks(tasks):
     #     req.get(uptend)
         st.markdown("")
 
+def completed_tasks():
+    githubid = st.session_state.userid
+    adminsend = (f'http://localhost:8000/completed-tasks/{githubid}')
+    resposnes = req.get(adminsend)
+    if resposnes.json()["message"]=="Data Retrieved":
+        st.write("ALL TASKS")
+        # st.json(resposnes.json())
+        resposnes = resposnes.json()['Tasks']
+        # if "message" in resposnes:
+        #     st.write("Tasks There")
+        # else:
+        #     st.write("Tasks not There")
+        # resposnes = resposnes["Tasks"]
+        visualizetasks(resposnes)
+    else:
+        st.warning(f"{resposnes.json()['message']}")
+
+def archieved_tasks():
+    githubid = st.session_state.userid
+    adminsend = (f'http://localhost:8000/archieved-tasks/{githubid}')
+    resposnes = req.get(adminsend)
+    if resposnes.json()["message"]=="Data Retrieved":
+        st.write("ALL TASKS")
+        # st.json(resposnes.json())
+        resposnes = resposnes.json()['Tasks']
+        # if "message" in resposnes:
+        #     st.write("Tasks There")
+        # else:
+        #     st.write("Tasks not There")
+        # resposnes = resposnes["Tasks"]
+        visualizetasks(resposnes)
+    else:
+        st.warning(f"{resposnes.json()['message']}")
+
+
 def tasks():
-     tab1, tab2 = st.tabs(["All TASKS","Add New TASK"])
-     with tab1:
-         gettasks()
-     with tab2:
-         addtask()
+
+    all_tasks, completedtasks,newtask,archieved = st.tabs(["📋 All Tasks"," ✅ Completed Tasks"," ➕ Add New TASK", "📥 Archieved Tasks"])
+    with all_tasks:
+        gettasks()
+    with completedtasks:
+        completed_tasks()
+    with newtask:
+        addtask()
+    with archieved:
+        archieved_tasks()
 

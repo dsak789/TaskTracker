@@ -29,14 +29,42 @@ async def gettasks():
 @taskrouter.get('/tasks/{userid}')
 async def tasks(userid : str ):
     try:
-        res =  tasksCollection.aggregate([{'$match':{'userid':userid}}])
+        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'_id':-1}}])
         res = [task async for task in res]
         for task in res:
             task['_id'] = str(task['_id'])
         if res:
             return {"message": "Data Retrieved", "Tasks": res}
         else:
-            return {"message": "No tasks found (or) You have not added Any Task yet "}
+            return {"message": "No New tasks found (or) You have not added Any Task yet "}
+    except Exception as e:
+        return {"message": "An error occurred", "error": str(e)}
+    
+@taskrouter.get('/completed-tasks/{userid}')
+async def tasks(userid : str ):
+    try:
+        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'_id':-1}}])
+        res = [task async for task in res]
+        for task in res:
+            task['_id'] = str(task['_id'])
+        if res:
+            return {"message": "Data Retrieved", "Tasks": res}
+        else:
+            return {"message": "No New tasks found (or) You have not added Any Task yet "}
+    except Exception as e:
+        return {"message": "An error occurred", "error": str(e)}
+
+@taskrouter.get('/archieved-tasks/{userid}')
+async def tasks(userid : str ):
+    try:
+        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'_id':-1}}])
+        res = [task async for task in res]
+        for task in res:
+            task['_id'] = str(task['_id'])
+        if res:
+            return {"message": "Data Retrieved", "Tasks": res}
+        else:
+            return {"message": "No Archieved tasks found (or) You can archieve All Tasks "}
     except Exception as e:
         return {"message": "An error occurred", "error": str(e)}
 
@@ -47,6 +75,7 @@ async def update_task(taskid:int, task :Task):
         return{'message':"Task Updated"}
     else:
         return{'message':"Task not Updated"}
+    
 @taskrouter.get('/updatetask/{taskid}/{status}')
 async def update_task(taskid:int, status :str):
     res = await tasksCollection.update_one({'id':(taskid)},{"$set":{'status':status}})
@@ -54,6 +83,14 @@ async def update_task(taskid:int, status :str):
         return{'message':"Task Updated"}
     else:
         return{'message':"Task not Updated"}
+        
+@taskrouter.get('/deletetask/{taskid}')
+async def update_task(taskid:int):
+    res = await tasksCollection.delete_one({'id':(taskid)})
+    if res.deleted_count == 1:
+        return{'message':"Task Deleted"}
+    else:
+        return{'message':"Task not Deleted"}
         
 
 @taskrouter.delete('/deletetask/{taskid}')

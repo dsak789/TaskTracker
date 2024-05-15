@@ -2,6 +2,13 @@ import streamlit as st
 import requests as req
 import bcrypt
 
+
+
+def getdp(gitid):
+    git = req.get(f'https://api.github.com/users/{gitid}')
+    return git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+
+
 def login():
     st.header("LOGIN")
     usernm = st.text_input("Enter Username:")
@@ -13,18 +20,14 @@ def login():
         if reqstatus.status_code == 200:
             res=reqstatus.json()
             if res['message'] == "Login Successfull":
-                st.balloons()
-                st.sidebar.write(res['user']['name'])
-                st.sidebar.write(res['user']['githubid'])
+                st.session_state['image']= getdp(res['user']['githubid'])
                 st.session_state["login"] = res['user']['name']
                 st.session_state["userid"] = res['user']['username']
                 st.session_state["githubid"] = res['user']['githubid']
-                git = req.get(f'https://api.github.com/users/{st.session_state.githubid}')
-                st.session_state.image = git.json()['avatar_url']
-            # st.balloons()
-            # st.sidebar.write("Role",reqstatus.json())['role']
-            # st.sidebar.json(reqstatus.json())
-
+                st.balloons()
+                st.experimental_rerun
+            else:
+                st.error("Invalid Credential! Please Tryagain..")
         else:
             st.error(reqstatus)
 def encryptpwd(pwd : str):

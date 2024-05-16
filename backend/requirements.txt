@@ -1,6 +1,5 @@
 pydantic
 motor
 pymongo
-typing
 fastapi
 bcrypt

@@ -17,5 +17,5 @@ async def server():
     except:
         return{"message":"Hey Great Your API Running... There Something error"}
 if __name__ == "__main__":
-    port = int(getenv("PORT",8000)) or 8000
+    port = int(getenv("PORT",8000)) 
     uvicorn.run("server:app",host="0.0.0.0",port=port,reload=True) 

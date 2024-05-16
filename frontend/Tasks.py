@@ -1,22 +1,25 @@
 import streamlit as st 
 import requests as req 
-
+from uuid import uuid4
+from datetime import date as dt
 def addtask():
     addtaskend = 'http://127.0.0.1:8000/addtask'
     title = st.text_input("Enter Task Title")
     description = st.text_input("Description of Task")
     status = st.selectbox("Status",["Todo","In Progress","Completed"])
-    prior = st.slider("Priority")
+    adddate = str(dt.today())
+    id = uuid4().hex
     githubid = st.session_state.userid
 
 
     if st.button("ADD TASK"):
         taskdata={
-            "id":prior,
+            "id":id,
             "userid":githubid,
             "title":title,
             "description":description,
-            "status":status
+            "status":status,
+            "adddate" : adddate,
         }
         res = req.post(addtaskend,json=taskdata)
         if res.status_code == 200:
@@ -31,7 +34,6 @@ def gettasks():
     adminsend = (f'http://localhost:8000/tasks/{githubid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
-        st.write("ALL TASKS")
         # st.json(resposnes.json())
         resposnes = resposnes.json()['Tasks']
         # if "message" in resposnes:
@@ -46,9 +48,10 @@ def gettasks():
 def visualizetasks(tasks):
     for res in tasks:
         c= st.container()
-        c.warning(f"{res['title']}")
-        c.caption(f" {res['description']}")
-        c.write(f"Status: {res['status']}")
+        c.subheader(f":red[{res['title']}]")
+        c.markdown(f"### {res['description']}")
+        if res['status'] != 'Completed' :
+            c.write(f"Status: :orange[{res['status'] }]")
         if res['status'] != "Completed":
             if res['status'] == "Todo":
                 drop = ["In Progress","Completed","Delete","Archieve"] 
@@ -69,11 +72,6 @@ def visualizetasks(tasks):
                 st.warning("Task once Deleted Task cannot be Retrived. Instead you can Archieve the Task")    
         else:
             c.success("Task Completed")
-    # if status :
-    #     id = res['id']
-    #     uptend = (f'http://localhost:8000/updatetask/{id}/{status}')
-    #     req.get(uptend)
-        st.markdown("")
 
 def completed_tasks():
     githubid = st.session_state.userid

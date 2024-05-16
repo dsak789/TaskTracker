@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 # from mangum import Mangum 
-from app.routers import tasks,users
+from routers import tasks,users
 app = FastAPI()
 # handler = Mangum(app)
 

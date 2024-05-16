@@ -64,7 +64,7 @@ def register():
             st.balloons()
             st._rerun()
 
-def authentication():
+def authenticationpage():
     tab1,tab2 = st.tabs(["Login","Register"])
 
     with tab1:

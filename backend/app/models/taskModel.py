@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional
 
 class Task(BaseModel):
-    id : Optional[int]
+    id : str
     userid: str
     title : str
     description : str
     status : str
+    adddate : str

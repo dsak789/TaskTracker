@@ -3,4 +3,3 @@ motor
 pymongo
 fastapi
 bcrypt
-os

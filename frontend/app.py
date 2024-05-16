@@ -1,5 +1,5 @@
 import streamlit as st
-import authentication as auth
+import authentication 
 import Tasks as tks
 st.set_page_config(
     page_title="Task Tracker",
@@ -27,7 +27,7 @@ def setting():
         st.write("Page still in Future work")
 
 if "login" not in st.session_state:
-    auth.authenticationpage()
+    authentication.authenticationpage()
 else:
     st.sidebar.write("Login as ",st.session_state["login"])
     st.sidebar.image(st.session_state.image)

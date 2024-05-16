@@ -1,20 +1,21 @@
 from fastapi import FastAPI
-from app import dbconfig as dbclient
-# from bson import ObjectId
+import uvicorn
+from os import getenv
+from mangum import Mangum 
 from app.routers import tasks,users
 app = FastAPI()
-
-# db = dbclient.client["tasks"]
-
-# res = db.insert_many([{"task":"someting5","description":"anything5"},{"task":"somthing6","description":"anything6"}])
-# print("Data Inserted",res)
-# print("#Records Inserted",res.inserted_ids)
+handler = Mangum(app)
 
 app.include_router(tasks.taskrouter)
 app.include_router(users.userrouter)
 
 
-
 @app.get('/')
 async def server():
-    return{"message":"Hey Great Your API Running... "}
+    try:
+        return{"message":"Hey Great Your API Running... "}
+    except:
+        return{"message":"Hey Great Your API Running... There Something error"}
+if __name__ == "__main__":
+    port = int(getenv("PORT",8000)) or 8000
+    uvicorn.run("server:app",host="0.0.0.0",port=port,reload=True) 

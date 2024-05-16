@@ -1,0 +1,5 @@
+pydantic
+motor
+pymongo
+fastapi
+bcrypt

@@ -13,5 +13,6 @@ app.include_router(users.userrouter)
 async def APICHECK():
     try:
         return{"message":"Hey Great Your API Running... "}
-    except:
-        return{"message":"Hey Great Your API Running... There Something error"}
+    except Exception as e:
+        print(f"Hey Great Your API Running... There Something error:{str(e)}")
+        return{"message":f"Hey Great Your API Running... There Something error:{str(e)}"}

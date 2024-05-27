@@ -2,7 +2,7 @@ import streamlit as st
 import requests as req
 import bcrypt
 
-
+apiurl = "https://tasktrackerapi.vercel.app"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')
@@ -16,7 +16,7 @@ def login():
     if st.button("LOGIN"):
 
         payload = {"username":usernm, "password":usrpwd}        
-        reqstatus = req.post('http://localhost:8000/login',json=payload)
+        reqstatus = req.post(f'{apiurl}/login',json=payload)
         if reqstatus.status_code == 200:
             res=reqstatus.json()
             if res['message'] == "Login Successfull":
@@ -27,7 +27,7 @@ def login():
                 st.balloons()
                 st.experimental_rerun
             else:
-                st.error("Invalid Credential! Please Tryagain..")
+                st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")
         else:
             st.error(reqstatus)
 def encryptpwd(pwd : str):
@@ -49,7 +49,7 @@ def register():
     if usepwd != cnfuserpwd:
         st.warning("Password Mismath...!")
     if st.button("Register"):
-        regiend = 'http://localhost:8000/adduser'
+        regiend = f'{apiurl}/adduser'
         regidata = {
             "id":0,
             "name":name,

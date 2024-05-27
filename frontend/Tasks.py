@@ -2,8 +2,12 @@ import streamlit as st
 import requests as req 
 from uuid import uuid4
 from datetime import date as dt
+
+
+apiurl = "https://tasktrackerapi.vercel.app"
+
 def addtask():
-    addtaskend = 'http://127.0.0.1:8000/addtask'
+    addtaskend = f'{apiurl}addtask'
     title = st.text_input("Enter Task Title")
     description = st.text_input("Description of Task")
     status = st.selectbox("Status",["Todo","In Progress","Completed"])
@@ -31,7 +35,7 @@ def addtask():
 
 def gettasks():
     githubid = st.session_state.userid
-    adminsend = (f'http://localhost:8000/tasks/{githubid}')
+    adminsend = (f'{apiurl}/tasks/{githubid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
         # st.json(resposnes.json())
@@ -64,8 +68,8 @@ def visualizetasks(tasks):
                 for btn in drop:
                     if st.button(btn,key=f"{btn}_{res['_id']}"):
                         id = res['id']
-                        uptend = (f'http://localhost:8000/updatetask/{id}/{btn}')
-                        delend = (f'http://localhost:8000/deletetask/{id}')
+                        uptend = (f'{apiurl}/updatetask/{id}/{btn}')
+                        delend = (f'{apiurl}/deletetask/{id}')
                         query = delend if btn == 'Delete' else uptend
                         req.get(query)
                         st.experimental_rerun()
@@ -75,7 +79,7 @@ def visualizetasks(tasks):
 
 def completed_tasks():
     githubid = st.session_state.userid
-    adminsend = (f'http://localhost:8000/completed-tasks/{githubid}')
+    adminsend = (f'{apiurl}/completed-tasks/{githubid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
         st.write("ALL TASKS")
@@ -92,7 +96,7 @@ def completed_tasks():
 
 def archieved_tasks():
     githubid = st.session_state.userid
-    adminsend = (f'http://localhost:8000/archieved-tasks/{githubid}')
+    adminsend = (f'{apiurl}/archieved-tasks/{githubid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
         st.write("ALL TASKS")

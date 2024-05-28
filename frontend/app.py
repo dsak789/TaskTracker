@@ -15,7 +15,7 @@ st.header("🎯 Task Tracker ")
 # st.session_state.login="AJJU1437"
 hide_streamlit_style = """
     <style>
-        .ViewerBadge_container__1QSob , #MainMenu{visibility: hidden;}
+        .ViewerBadge_container__1QSob , #MainMenu{visibility: block;}
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)

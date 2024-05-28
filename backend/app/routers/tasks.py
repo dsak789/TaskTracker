@@ -16,6 +16,7 @@ async def createTask(task : Task):
             
         }
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -31,6 +32,7 @@ async def gettasks():
             res['_id'] = str(res['_id'])
         return{'message':"Data Recieved Successfully",'Tasks':responses}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -48,8 +50,9 @@ async def tasks(userid : str ):
             return {"message": "Data Retrieved", "Tasks": res}
         else:
             return {"message": "No New tasks found (or) You have not added Any Task yet "}
-    except Exception as e:
-        return {"message": "An error occurred", "error": str(e)}
+    except Exception as ex:
+        print(ex)
+        return {"message": "An error occurred", "error": str(ex)}
     
 @taskrouter.get('/completed-tasks/{userid}')
 async def tasks(userid : str ):
@@ -62,8 +65,9 @@ async def tasks(userid : str ):
             return {"message": "Data Retrieved", "Tasks": res}
         else:
             return {"message": "No New tasks found (or) You have not added Any Task yet "}
-    except Exception as e:
-        return {"message": "An error occurred", "error": str(e)}
+    except Exception as ex:
+        print(ex)
+        return {"message": "An error occurred", "error": str(ex)}
 
 @taskrouter.get('/archieved-tasks/{userid}')
 async def tasks(userid : str ):
@@ -76,8 +80,9 @@ async def tasks(userid : str ):
             return {"message": "Data Retrieved", "Tasks": res}
         else:
             return {"message": "No Archieved tasks found (or) You can archieve All Tasks "}
-    except Exception as e:
-        return {"message": "An error occurred", "error": str(e)}
+    except Exception as ex:
+        print(ex)
+        return {"message": "An error occurred", "error": str(ex)}
 
 @taskrouter.put('/updatetask/{taskid}')
 async def update_task(taskid:str, task :Task):
@@ -88,6 +93,7 @@ async def update_task(taskid:str, task :Task):
         else:
             return{'message':"Task not Updated"}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -102,6 +108,7 @@ async def update_task(taskid:str, status :str):
         else:
             return{'message':"Task not Updated"}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -116,6 +123,7 @@ async def update_task(taskid:str):
         else:
             return{'message':"Task not Deleted"}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -131,6 +139,7 @@ async def delete_task(taskid: str):
         else:
             return{'message':"Task not Deleted"}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)

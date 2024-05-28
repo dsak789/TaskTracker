@@ -7,7 +7,7 @@ from datetime import date as dt
 apiurl = "https://tasktrackerapi.vercel.app"
 
 def addtask():
-    addtaskend = f'{apiurl}addtask'
+    addtaskend = f'{apiurl}/addtask'
     title = st.text_input("Enter Task Title")
     description = st.text_input("Description of Task")
     status = st.selectbox("Status",["Todo","In Progress","Completed"])

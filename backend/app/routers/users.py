@@ -28,6 +28,7 @@ async def login(cred : Login):
                 log = {"name":res['name'],'username':res['username'],'githubid':res['githubid']}
                 return{"message":"Login Successfull",'user':log}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -41,6 +42,7 @@ async def adduser(user : User):
         if res.inserted_id is not None:
             return {'message':"New Registration Successfully with "+str(res.inserted_id) +"as ID"}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)
@@ -55,6 +57,7 @@ async def allusers():
             user['_id'] = str(['_id'])
         return {'message':"Users Data Retrieved",'Users':users}
     except Exception as ex:
+        print(ex)
         return {
             'message':"Server Unreachable..!",
             'error':str(ex)

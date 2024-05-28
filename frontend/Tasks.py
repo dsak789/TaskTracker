@@ -29,7 +29,7 @@ def addtask():
         if res.status_code == 200:
             st.success("New Task Added")
             st.balloons()
-            st._rerun()
+            st.experimental_rerun()
         else:
             st.error("Error adding task")
 

@@ -41,3 +41,4 @@ else:
             
     if st.sidebar.button("⬅️ Logout"):
         del st.session_state.login 
+        st.experimental_rerun()

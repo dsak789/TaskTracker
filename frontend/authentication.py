@@ -3,6 +3,7 @@ import requests as req
 import bcrypt
 
 apiurl = "https://tasktrackerapi.vercel.app"
+# apiurl = "http://localhost:8000"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')
@@ -14,7 +15,6 @@ def login():
     usernm = st.text_input("Enter Username:")
     usrpwd = st.text_input("Password",type="password")
     if st.button("LOGIN"):
-
         payload = {"username":usernm, "password":usrpwd}        
         reqstatus = req.post(f'{apiurl}/login',json=payload)
         if reqstatus.status_code == 200:
@@ -25,7 +25,7 @@ def login():
                 st.session_state["userid"] = res['user']['username']
                 st.session_state["githubid"] = res['user']['githubid']
                 st.balloons()
-                st.experimental_rerun
+                st.experimental_rerun()
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")
         else:

@@ -9,7 +9,6 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 port = process.env.PORT || 8888
-conDB()
 
 
 app.use('/user',UserRouter)
@@ -20,4 +19,5 @@ app.get('/',(req,res)=>{
 
 app.listen(port,()=>{
     console.log(`Task Tracker API Server running on PORT:${port}`)
+    conDB()
 })

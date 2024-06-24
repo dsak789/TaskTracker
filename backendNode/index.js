@@ -7,8 +7,13 @@ const TaskRouter = require('./routes/TasksRouter')
 const app = express()
 app.use(express.json())
 app.use(cors())
-port = process.env.PORT || 8888
 
+
+try {
+    port = process.env.PORT || 8888
+} catch (error) {
+    console.log(`ENV PORT err: ${error}`)
+}
 
 app.use('/user',UserRouter)
 app.use('/task/',TaskRouter)

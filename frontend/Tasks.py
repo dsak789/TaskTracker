@@ -5,7 +5,8 @@ from datetime import date as dt
 
 
 # apiurl = "https://tasktrackerapi.vercel.app"
-apiurl = "http://localhost:8000/task"
+apiurl = "https://tasktrackerapiv2.vercel.app/task"
+# apiurl = "http://localhost:8000/task"
 
 def addtask():
     addtaskend = f'{apiurl}/addtask'

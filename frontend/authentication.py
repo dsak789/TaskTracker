@@ -4,7 +4,7 @@ import bcrypt
 
 # apiurl = "https://tasktrackerapi.vercel.app"
 apiurl = "https://tasktrackerapiv2.vercel.app/user"
-apiurl = "http://localhost:8000"
+# apiurl = "http://localhost:8000"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')

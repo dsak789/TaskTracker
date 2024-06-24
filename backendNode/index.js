@@ -14,6 +14,14 @@ try {
 } catch (error) {
     console.log(`ENV PORT err: ${error}`)
 }
+app.listen(port,()=>{
+    try {
+        console.log(`Task Tracker API Server running on PORT:${port}`)
+        conDB()
+    } catch (error) {
+        console.log(`Server not started due to ${error}`)
+    }
+})
 
 app.use('/user',UserRouter)
 app.use('/task/',TaskRouter)
@@ -22,14 +30,5 @@ app.get('/',(req,res)=>{
         res.json(`Task Tracker API Working `)        
     } catch (error) {
         res.status(500).json(`Server Down Due to ${error}`)
-    }
-})
-
-app.listen(port,()=>{
-    try {
-        console.log(`Task Tracker API Server running on PORT:${port}`)
-        conDB()
-    } catch (error) {
-        console.log(`Server not started due to ${error}`)
     }
 })

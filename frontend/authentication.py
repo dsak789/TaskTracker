@@ -3,6 +3,7 @@ import requests as req
 import bcrypt
 
 # apiurl = "https://tasktrackerapi.vercel.app"
+apiurl = "https://tasktrackerapiv2.vercel.app/user"
 apiurl = "http://localhost:8000"
 
 def getdp(gitid):
@@ -16,7 +17,7 @@ def login():
     usrpwd = st.text_input("Password",type="password")
     if st.button("LOGIN"):
         payload = {"username":usernm, "password":usrpwd}        
-        reqstatus = req.post(f'{apiurl}/user/login',json=payload)
+        reqstatus = req.post(f'{apiurl}/login',json=payload)
         if reqstatus.status_code == 200:
             res=reqstatus.json()
             if res['message'] == "Login Successfull":
@@ -49,7 +50,7 @@ def register():
     if usepwd != cnfuserpwd:
         st.warning("Password Mismath...!")
     if st.button("Register"):
-        regiend = f'{apiurl}/user/adduser'
+        regiend = f'{apiurl}/adduser'
         regidata = {
             "id":0,
             "name":name,

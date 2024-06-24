@@ -4,8 +4,8 @@ from uuid import uuid4
 from datetime import date as dt
 
 
-apiurl = "https://tasktrackerapi.vercel.app"
-# apiurl = "http://localhost:8000"
+# apiurl = "https://tasktrackerapi.vercel.app"
+apiurl = "http://localhost:8000/task"
 
 def addtask():
     addtaskend = f'{apiurl}/addtask'

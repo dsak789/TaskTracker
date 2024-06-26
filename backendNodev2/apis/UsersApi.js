@@ -29,7 +29,7 @@ exports.login = async (req,res)=>{
                 })
             }
             else{
-                res.status(400).json({meaasage:"Invalid Credentials"})
+                res.status(400).json({meaasage:"Password Incorrect..!"})
             }
         }
         else{
@@ -37,7 +37,7 @@ exports.login = async (req,res)=>{
         }
     } catch (error) {
         res.status(400).json({
-            message: "Invalid Credentials",
+            message: "User Not doesn't Exist",
             err:error
         })
     }

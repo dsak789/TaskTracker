@@ -9,9 +9,11 @@ connDB()
 
 
 const UserRouter = require('./routes/UserRouter')
+const TaskRouter = require('./routes/Tasksouter')
 
 
 app.use('/user',UserRouter)
+app.use('/task',TaskRouter)
 
 
 
@@ -21,5 +23,5 @@ app.get('/',async (req,res)=>{
 
 
 app.listen(process.env.PORT,()=>{
-    console.log("Server of NODEv2 Started")
+    console.log("Server of NODEv2 Started at 8888")
 })

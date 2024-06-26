@@ -34,7 +34,7 @@ exports.login = async (req,res)=>{
         const {username,password} = req.body
         const user = await User.findOne({'username':`${username}`})
         if (user.username) {
-            if (verifypwd(password,user.password)){
+            if (await verifypwd(password,user.password)){
                 res.json({
                     message:"Login Successfull",
                     user:{

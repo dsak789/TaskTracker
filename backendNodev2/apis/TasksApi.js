@@ -38,6 +38,28 @@ exports.getTasks = async (req,res) => {
 
 
 
+exports.updateTask =  async (req,res) => {
+    try {
+        const {taskid, taskStatus } = req.params
+        const update = await Task.updateOne({'id':taskid},{'$set':{'status':taskStatus}})
+        if (update.modifiedCount == 1){
+            res.json({
+                message:"Task updated Successfully"
+            })
+        }
+        else{
+            res.status(400).json({
+                message:"Task Not Updated"
+            })
+        }
+    } catch (error) {
+        res.status(400).json({
+            message:"Task not Updated",
+            err:error
+        })
+    }
+}
+
 
 
 

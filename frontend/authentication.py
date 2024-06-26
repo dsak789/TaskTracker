@@ -9,8 +9,11 @@ apiurl = "https://tasktrackerapinv2.vercel.app/user"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')
-    return git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
-
+    if git.json() and git.json()['login']== gitid:
+        dpurl= git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+        return dpurl
+    else:
+        return "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
 
 def login():
     st.header("LOGIN")

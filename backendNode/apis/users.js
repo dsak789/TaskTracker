@@ -1,15 +1,7 @@
 const User = require('../schemas/UsersSchema')
 const bcrypt = require('bcrypt')
 
-const encryptpwd = async (pwd) =>{
-    try {
-        const salt = await bcrypt.genSalt(10)
-        const enc_pwd =await bcrypt.hash(pwd,salt)
-        return enc_pwd
-    } catch (error) {
-        console.log(error)
-    }
-}
+
 
 const verifypwd = async (pwd,encpwd) =>{
     try {

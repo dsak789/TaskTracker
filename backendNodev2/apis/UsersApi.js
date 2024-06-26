@@ -1,4 +1,50 @@
 const User = require('../models/UsersSchema')
+const bcrypt = require('bcrypt')
+
+
+const verifypwd = async (pwd,encpwd) =>{
+    try {
+        const verify = await bcrypt.compare(pwd,encpwd)
+        return verify
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+exports.login = async (req,res)=>{
+    try {
+        const {username,password} = req.body
+        const user = await User.findOne({'username':`${username}`})
+        if (user.username) {
+            if (verifypwd(password,user.password)){
+                res.json({
+                    message:"Login Successfull",
+                    user:{
+                        "name":user.name,
+                        'username':user.username,
+                        'githubid':user.githubid
+                    }
+                })
+            }
+            else{
+                res.status(400).json({meaasage:"Invalid Credentials"})
+            }
+        }
+        else{
+            res.status(400).json({message:"User Not doesn't Exist"})
+        }
+    } catch (error) {
+        res.status(400).json({
+            message: "Invalid Credentials",
+            err:error
+        })
+    }
+}
+
+
+
 
 exports.adduser = async (req,res)=>{
     try {

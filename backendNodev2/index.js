@@ -1,11 +1,12 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
-
+const connDB = require('./db/dbConfig') 
 const app =express()
 app.use(cors())
 
-app.get('/',(req,res)=>{
+app.get('/',async (req,res)=>{
+    connDB()
     res.json("NODEv2 API Running...")
 })
 

@@ -49,10 +49,44 @@ exports.getUserTasks = async (req,res) => {
 }
 
 
+exports.completedTasks = async (req,res) => {
+    try {
+        const userid = req.params.userid
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'_id':-1}}])
+        res.json({
+            message:`Data Retrieved`,
+            message1:`Completed Tasks of ${userid}`,
+            Tasks:tasks
+        })
+    } catch (error) {
+        res.status(400).json(
+            {
+                message:"No Tasks Retrieved",
+                err: error
+            }
+        )
+    }
+}
 
 
-
-
+exports.archievedTasks = async (req,res) => {
+    try {
+        const userid = req.params.userid
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'_id':-1}}])
+        res.json({
+            message:`Data Retrieved`,
+            message1:`Archieved Tasks of ${userid}`,
+            Tasks:tasks
+        })
+    } catch (error) {
+        res.status(400).json(
+            {
+                message:"No Tasks Retrieved",
+                err: error
+            }
+        )
+    }
+}
 
 exports.updateTask =  async (req,res) => {
     try {

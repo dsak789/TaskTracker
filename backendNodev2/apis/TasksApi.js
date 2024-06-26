@@ -31,6 +31,22 @@ exports.getTasks = async (req,res) => {
     }
 }
 
+exports.getUserTasks = async (req,res) => {
+    try {
+        const userid = req.params.userid
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'_id':-1}}])
+        res.json({
+            message:"Data Retrieved",
+            message1:`Tasks of ${userid}`,
+            Tasks:tasks
+        })
+    } catch (error) {
+        res.status(400).json({
+            message:"Tasks Not Retrived",
+            errr:error
+        })
+    }
+}
 
 
 

@@ -4,9 +4,17 @@ require('dotenv').config()
 const connDB = require('./db/dbConfig') 
 const app =express()
 app.use(cors())
+connDB()
+
+
+const UserRouter = require('./routes/UserRoutes')
+
+
+app.use('/user',UserRouter)
+
+
 
 app.get('/',async (req,res)=>{
-    connDB()
     res.json("NODEv2 API Running...")
 })
 

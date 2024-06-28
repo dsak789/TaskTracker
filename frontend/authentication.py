@@ -45,7 +45,12 @@ def encryptpwd(pwd : str):
 def register():
     st.header("REGISTER")
     name = st.text_input("Enter Your Name")
-    githubid = st.text_input("Enter GitHub Id")
+    githubid = st.text_input("Enter GitHub username ")
+    invalid_gitid = False
+    if githubid.startswith('https://github.com/') or 'github.com' in githubid:
+        # githubid=githubid[len("https://github.com/")] 
+        st.warning("Please Remove :red[`https://gihub.com/`] Just enter your github username")
+        invalid_gitid = True
     email = st.text_input("Enter Email")
     usernm = st.text_input("Enter Username")
     usepwd = st.text_input("Type Password",type='password')
@@ -53,7 +58,7 @@ def register():
     cnfuserpwd = st.text_input("Confirm Password",type='password')
     if usepwd != cnfuserpwd:
         st.warning("Password Mismath...!")
-    if st.button("Register"):
+    if st.button("Register", disabled=invalid_gitid):
         regiend = f'{apiurl}/adduser'
         regidata = {
             "id":0,
@@ -67,8 +72,9 @@ def register():
         if res.status_code == 200:
             st.success("Registration Successfull")
             st.balloons()
-            st._rerun()
-
+            st.experimental_rerun()
+    if invalid_gitid:
+        st.warning("Check error in above fields")
 def authorization():
     tab1,tab2 = st.tabs(["Login","Register"])
     with tab1:

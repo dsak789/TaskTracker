@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema(
             required:true
         },
         githubid:{
-            type: String        },
+            type: String
+        },
         username:{
             type: String,
             required:true

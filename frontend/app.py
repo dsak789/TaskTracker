@@ -29,7 +29,7 @@ def setting():
 if "login" not in st.session_state:
     authentication.authorization()
 else:
-    st.sidebar.write("Login as ",st.session_state["login"])
+    st.sidebar.write(f"Hey..! :red[{st.session_state.login}]")
     st.sidebar.image(st.session_state.image)
 
     tks.tasks()

@@ -9,11 +9,14 @@ apiurl = "https://tasktrackerapinv2.vercel.app/user"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')
-    if git.json() and git.json()['login']== gitid:
-        dpurl= git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
-        return dpurl
+    if git.status_code == 200:
+        if git.json() and git.json()['login']== gitid:
+            dpurl= git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://avatars.githubusercontent.com/u/9919?v=4"
+            return dpurl
+    if git.status_code == 404:
+        return "https://static.vecteezy.com/system/resources/previews/000/649/115/original/user-icon-symbol-sign-vector.jpg"
     else:
-        return "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+        return"https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
 
 def login():
     st.header("LOGIN")
@@ -45,11 +48,11 @@ def encryptpwd(pwd : str):
 def register():
     st.header("REGISTER")
     name = st.text_input("Enter Your Name")
-    githubid = st.text_input("Enter GitHub username ")
+    githubid = st.text_input("Enter GitHub Username ")
     invalid_gitid = False
-    if githubid.startswith('https://github.com/') or 'github.com' in githubid:
+    if githubid.startswith('https://github.com/') or 'github.com' in githubid or '/' in githubid:
         # githubid=githubid[len("https://github.com/")] 
-        st.warning("Please Remove :red[`https://gihub.com/`] Just enter your github username")
+        st.warning("Just enter your github username. Please Remove :red[`https://gihub.com/`] or  :red[`gihub.com/`] or :red[`/`] if present..")
         invalid_gitid = True
     email = st.text_input("Enter Email")
     usernm = st.text_input("Enter Username")
@@ -74,7 +77,7 @@ def register():
             st.balloons()
             st.experimental_rerun()
     if invalid_gitid:
-        st.warning("Check error in above fields")
+        st.error("Please Check errors in above Fields ")
 def authorization():
     tab1,tab2 = st.tabs(["Login","Register"])
     with tab1:

@@ -16,13 +16,13 @@ def addtask():
     status = st.selectbox("Status",["Todo","In Progress","Completed"])
     adddate = str(dt.today())
     id = uuid4().hex
-    githubid = st.session_state.userid
+    userid = st.session_state.userid
 
 
     if st.button("ADD TASK"):
         taskdata={
             "id":id,
-            "userid":githubid,
+            "userid":userid,
             "title":title,
             "description":description,
             "status":status,
@@ -37,17 +37,14 @@ def addtask():
             st.error("Error adding task")
 
 def gettasks():
-    githubid = st.session_state.userid
-    adminsend = (f'{apiurl}/tasks/{githubid}')
+    userid = st.session_state.userid
+    adminsend = (f'{apiurl}/tasks/{userid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
         # st.json(resposnes.json())
         resposnes = resposnes.json()['Tasks']
-        # if "message" in resposnes:
-        #     st.write("Tasks There")
-        # else:
-        #     st.write("Tasks not There")
-        # resposnes = resposnes["Tasks"]
+        if len(resposnes) == 0:
+            st.warning("Tasks not There or No Tasks Added Yet")
         visualizetasks(resposnes)
     else:
         st.warning(f"{resposnes.json()['message']}")
@@ -81,35 +78,29 @@ def visualizetasks(tasks):
             c.success("Task Completed")
 
 def completed_tasks():
-    githubid = st.session_state.userid
-    adminsend = (f'{apiurl}/completed-tasks/{githubid}')
+    userid = st.session_state.userid
+    adminsend = (f'{apiurl}/completed-tasks/{userid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
         st.write("ALL TASKS")
         # st.json(resposnes.json())
         resposnes = resposnes.json()['Tasks']
-        # if "message" in resposnes:
-        #     st.write("Tasks There")
-        # else:
-        #     st.write("Tasks not There")
-        # resposnes = resposnes["Tasks"]
+        if len(resposnes) == 0:
+            st.warning("Tasks not Completed or No Tasks Added Yet")
         visualizetasks(resposnes)
     else:
         st.warning(f"{resposnes.json()['message']}")
 
 def archieved_tasks():
-    githubid = st.session_state.userid
-    adminsend = (f'{apiurl}/archieved-tasks/{githubid}')
+    userid = st.session_state.userid
+    adminsend = (f'{apiurl}/archieved-tasks/{userid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
-        st.write("ALL TASKS")
+        # st.write("ALL TASKS")
         # st.json(resposnes.json())
         resposnes = resposnes.json()['Tasks']
-        # if "message" in resposnes:
-        #     st.write("Tasks There")
-        # else:
-        #     st.write("Tasks not There")
-        # resposnes = resposnes["Tasks"]
+        if len(resposnes) == 0:
+            st.warning("Tasks not Archieved or No Tasks Added Yet")
         visualizetasks(resposnes)
     else:
         st.warning(f"{resposnes.json()['message']}")

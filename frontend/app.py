@@ -15,7 +15,7 @@ st.header("🎯 Task Tracker ")
 # st.session_state.login="AJJU1437"
 hide_streamlit_style = """
     <style>
-        .ViewerBadge_container__1QSob , #MainMenu{visibility: block;}
+        .ViewerBadge_container__1QSob , #MainMenu{visibility: hidden;}
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -23,13 +23,13 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 def setting():
     c = st.sidebar.container()
     with c:
-        st.write("Profile Settings")
-        st.write("Page still in Future work")
+        st.write("Profile Settings ")
+        st.write("Page still in Future work 😜")
 
 if "login" not in st.session_state:
     authentication.authorization()
 else:
-    st.sidebar.write(f"Hey..! :red[{st.session_state.login}]")
+    st.sidebar.write(f"Hey..! :orange[{st.session_state.login}]")
     st.sidebar.image(st.session_state.image)
 
     tks.tasks()

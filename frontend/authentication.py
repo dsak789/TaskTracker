@@ -3,7 +3,6 @@ import requests as req
 import bcrypt
 
 # apiurl = "https://tasktrackerapi.vercel.app"
-# apiurl = "https://tasktrackerapiv2.vercel.app/user"
 apiurl = "https://tasktrackerapinv2.vercel.app/user"
 # apiurl = "http://localhost:8888/user"
 

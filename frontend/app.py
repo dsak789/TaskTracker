@@ -10,13 +10,14 @@ st.set_page_config(
     
 )
 
+
 st.header("🎯 Task Tracker ")
 # st.session_state.login="AJJU1437"
 hide_streamlit_style = """
     <style>
         .ViewerBadge_container__1QSob , #MainMenu{visibility: hidden;}
         div{
-        font-family:cursive,'Times New Roman','Arial Narrow', Arial, sans-serif;
+        font-family:'Times New Roman','Arial Narrow', Arial, sans-serif;
            }        
     </style>
 """

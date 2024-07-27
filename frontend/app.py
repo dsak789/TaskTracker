@@ -16,6 +16,9 @@ st.header("🎯 Task Tracker ")
 hide_streamlit_style = """
     <style>
         .ViewerBadge_container__1QSob , #MainMenu{visibility: hidden;}
+        div{
+        font-family:'Times New Roman','Arial Narrow', Arial, sans-serif;
+           }        
     </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)

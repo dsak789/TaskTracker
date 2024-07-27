@@ -32,7 +32,7 @@ def login():
                 st.session_state["userid"] = res['user']['username']
                 st.session_state["githubid"] = res['user']['githubid']
                 st.balloons()
-                st.experimental_rerun()
+                # st.experimental_rerun()
 
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")

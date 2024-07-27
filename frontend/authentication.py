@@ -33,10 +33,10 @@ def login():
                 st.session_state["githubid"] = res['user']['githubid']
                 st.balloons()
                 st.experimental_rerun()
-                # try:
-                #     st.experimental_rerun()
-                # except:
-                #     st.warning("Kindly Press Login Again")
+                try:
+                    st.experimental_rerun()
+                except:
+                    st.warning("Kindly Press Login Again")
 
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")

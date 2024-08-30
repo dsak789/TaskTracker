@@ -32,7 +32,8 @@ def login():
                 st.session_state["userid"] = res['user']['username']
                 st.session_state["githubid"] = res['user']['githubid']
                 st.balloons()
-                st.experimental_rerun()
+                st.rerun()
+                
 
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")
@@ -75,7 +76,7 @@ def register():
         if res.status_code == 200:
             st.success("Registration Successfull")
             st.balloons()
-            st.experimental_rerun()
+            st.rerun()
     if invalid_gitid:
         st.error("Please Check errors in above Fields ")
 def authorization():

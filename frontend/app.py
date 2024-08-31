@@ -33,7 +33,7 @@ if "login" not in st.session_state:
     authentication.authorization()
 else:
     st.sidebar.write(f"Hey..! :orange[{st.session_state.login}]")
-    st.sidebar.image(st.session_state.image)
+    st.sidebar.image(st.session_state.image,width=170,output_format="auto")
 
     tks.tasks()
     settings = st.sidebar.button(" ⚙️ Settings")

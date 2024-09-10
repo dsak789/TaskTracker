@@ -38,7 +38,7 @@ async def login(cred : Login):
 async def adduser(user : User):
     try:
         # print(user.dict())
-        res = userCollection.insert_one(user.dict())
+        res = await userCollection.insert_one(user.dict())
         if res.inserted_id is not None:
             return {'message':"New Registration Successfully with "+str(res.inserted_id) +"as ID"}
     except Exception as ex:
@@ -51,7 +51,7 @@ async def adduser(user : User):
 @userrouter.get('/getusers')
 async def allusers():
     try:
-        users = userCollection.find()
+        users = await userCollection.find()
         users = [user async for user in users]
         for user in users:
             user['_id'] = str(['_id'])

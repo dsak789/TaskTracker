@@ -26,7 +26,7 @@ async def createTask(task : Task):
 @taskrouter.get('/tasks')
 async def gettasks():
     try:
-        res = tasksCollection.find()
+        res = await tasksCollection.find()
         responses = [doc async for doc in res]
         for res in responses:
             res['_id'] = str(res['_id'])
@@ -42,7 +42,7 @@ async def gettasks():
 @taskrouter.get('/tasks/{userid}')
 async def tasks(userid : str ):
     try:
-        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'_id':-1}}])
+        res =  await tasksCollection.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'_id':-1}}])
         res = [task async for task in res]
         for task in res:
             task['_id'] = str(task['_id'])
@@ -57,7 +57,7 @@ async def tasks(userid : str ):
 @taskrouter.get('/completed-tasks/{userid}')
 async def tasks(userid : str ):
     try:
-        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'_id':-1}}])
+        res = await tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'_id':-1}}])
         res = [task async for task in res]
         for task in res:
             task['_id'] = str(task['_id'])
@@ -72,7 +72,7 @@ async def tasks(userid : str ):
 @taskrouter.get('/archieved-tasks/{userid}')
 async def tasks(userid : str ):
     try:
-        res =  tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'_id':-1}}])
+        res =  await tasksCollection.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'_id':-1}}])
         res = [task async for task in res]
         for task in res:
             task['_id'] = str(task['_id'])

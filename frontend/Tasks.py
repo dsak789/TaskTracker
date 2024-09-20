@@ -31,7 +31,7 @@ def addtask():
         if res.status_code == 200:
             st.success("New Task Added")
             st.balloons()
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Error adding task")
 
@@ -71,7 +71,7 @@ def visualizetasks(tasks):
                         delend = (f'{apiurl}/deletetask/{id}')
                         query = delend if btn == 'Delete' else uptend
                         req.get(query)
-                        st.experimental_rerun()
+                        st.rerun()
                 st.warning("Task once Deleted Task cannot be Retrived. Instead you can Archieve the Task")    
         else:
             c.success("Task Completed")

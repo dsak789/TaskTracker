@@ -11,6 +11,17 @@ const verifypwd = async (pwd,encpwd) =>{
     }
 }
 
+const encyptpwd = async(pwd)=>{
+    try {
+        const salt =await bcrypt.genSalt(7)
+        const encpwd = await bcrypt.hash(pwd,salt)
+        return encpwd
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 
 exports.login = async (req,res)=>{
@@ -29,7 +40,7 @@ exports.login = async (req,res)=>{
                 })
             }
             else{
-                res.status(400).json({meaasage:"Password Incorrect..!"})
+                res.status(400).json({message:"Password Incorrect..!"})
             }
         }
         else{
@@ -48,11 +59,13 @@ exports.login = async (req,res)=>{
 
 exports.adduser = async (req,res)=>{
     try {
-        const userData = req.body
-        const insert = new User(userData)
+        const {name,email,githubid,username,password} = req.body
+        pwd = await encyptpwd(password)
+        const insert = new User({name,email,githubid,username,'password':pwd})
         await insert.save();
         res.json({
-            message:"User Registration Successfull.."
+            message:"User Registration Successfull..",
+            user_details:{name,email,githubid,username,'password':pwd}
         })
     } catch (error) {
         res.status(400).json({

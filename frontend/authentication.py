@@ -1,6 +1,5 @@
 import streamlit as st
 import requests as req
-import bcrypt
 
 # apiurl = "https://tasktrackerapi.vercel.app"
 apiurl = "https://tasktrackerapinv2.vercel.app/user"
@@ -11,7 +10,6 @@ def getdp(gitid):
     if git.status_code == 200:
         if git.json() and git.json()['login'].lower() == gitid.lower():
             dpurl= git.json()['avatar_url'] if git.json()['avatar_url'] != "" else "https://avatars.githubusercontent.com/u/9919?v=4"
-            print("getdp==>",dpurl)
             return dpurl
     if git.status_code == 404:
         return "https://static.vecteezy.com/system/resources/previews/000/649/115/original/user-icon-symbol-sign-vector.jpg"
@@ -30,23 +28,27 @@ def login():
             res=reqstatus.json()
             if res['message'] == "Login Successfull":
                 st.session_state['image']= getdp(res['user']['githubid']) 
-                print("session==>",getdp(res['user']['githubid']))
                 st.session_state["login"] = res['user']['name']
                 st.session_state["userid"] = res['user']['username']
                 st.session_state["githubid"] = res['user']['githubid']
-                st.balloons()
+                st.success('Login Success')
                 st.rerun()
                 
 
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")
         else:
-            st.error(reqstatus)
-def encryptpwd(pwd : str):
-    salt = bcrypt.gensalt()
-    hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'),salt)
-    print(hashed_pwd.decode('utf-8'))
-    return hashed_pwd.decode('utf-8')
+            print(reqstatus.json())
+            st.error(reqstatus.json()['message'])
+    with st.expander("Forgot Password...?"):
+        forgotpassword()
+def forgotpassword():
+    fpusernm = st.text_input("Username:")
+    if st.button("Reset Password"):
+        res = req.post(f'{apiurl}/forgotpassword',json={'username':fpusernm})
+        if res.status_code == 200:
+            st.success("Password Reset Done")
+
 
 
 def register():
@@ -73,12 +75,11 @@ def register():
             "email":email,
             "githubid":githubid,
             "username":usernm,
-            "password":encryptpwd(usepwd) 
+            "password":usepwd 
         }
         res = req.post(regiend,json=regidata)
         if res.status_code == 200:
             st.success("Registration Successfull")
-            st.balloons()
             st.rerun()
     if invalid_gitid:
         st.error("Please Check errors in above Fields ")

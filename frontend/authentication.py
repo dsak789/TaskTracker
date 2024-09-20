@@ -2,8 +2,8 @@ import streamlit as st
 import requests as req
 
 # apiurl = "https://tasktrackerapi.vercel.app"
-# apiurl = "https://tasktrackerapinv2.vercel.app/user"
-apiurl = "http://localhost:8888/user"
+apiurl = "https://tasktrackerapinv2.vercel.app/user"
+# apiurl = "http://localhost:8888/user"
 
 def getdp(gitid):
     git = req.get(f'https://api.github.com/users/{gitid}')

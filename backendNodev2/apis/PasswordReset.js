@@ -5,8 +5,8 @@ const bcrypt = require('bcrypt')
 const transporter = nodemailer.createTransport({
     service:'Gmail',
     auth:{
-        user:'studentgrievances@jntugv.edu.in',
-        pass:"ruhb pwut omkg cvxo"
+        user:'sbcreations14378@gmail.com',
+        pass:"ycwi dywl sjsh dkiq"
     },
 });
 
@@ -156,11 +156,11 @@ exports.reset_password = async (req,res)=>{
 
         <a href="https://tasktracker.streamlit.app" class="button">Go to Task Tracker</a>
 
-        <p>Thank you for using our service!</p>
+        <p >Thank you for using our Task Tracker Application!</p>
     </div>
 
     <div class="footer">
-        <p>If you have any questions, feel free to contact us at <a href="mailto:dsak.official@gmail.com">dsak.official@gmail.com</a></p>
+        <p>If you have any questions or suggestions feel free to contact us at <a href="mailto:dsak.official@gmail.com">dsak.official@gmail.com</a></p>
         <p><a href="https://tasktracker.streamlit.app">tasktracker.streamlit.app</a></p>
     </div>
 </div>

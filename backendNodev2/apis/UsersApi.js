@@ -28,7 +28,7 @@ exports.login = async (req,res)=>{
     try {
         const {username,password} = req.body
         const user = await User.findOne({'username':`${username}`})
-        if (user.username) {
+        if (user) {
             if (await verifypwd(password,user.password)){
                 const gitdata = await (await fetch(`https://api.github.com/users/${user.githubid}`)).json()
                 res.json({
@@ -42,11 +42,11 @@ exports.login = async (req,res)=>{
                 })
             }
             else{
-                res.status(400).json({message:"Password Incorrect..!"})
+                res.json({message:"Password Incorrect..!"})
             }
         }
         else{
-            res.status(400).json({message:"User Not doesn't Exist"})
+            res.json({message:"User Not doesn't Exist"})
         }
     } catch (error) {
         res.status(400).json({
@@ -79,7 +79,7 @@ exports.adduser = async (req,res)=>{
         }
         const insert = new User({name,email,githubid,username,'password':pwd})
         await insert.save();
-        await reg_mail.send_signup_mail(username)
+        reg_mail.send_signup_mail(username)
         res.json({
             message:"User Registration Successfull..",
             user_details:{name,email,githubid,username,'password':pwd}

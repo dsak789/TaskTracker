@@ -138,13 +138,11 @@ exports.send_signup_mail = async (username)=>{
         transporter.sendMail(mailoptions,(error,info)=>{
             if(error){
                 console.log("Sending Error"+error)
+                return error
             }
             else{
                 console.log("SENT"+info.response)
-                return ({
-                    success:true,
-                    message:'New Registration Mail Sent to Registered Email'
-                })
+                return true
             }
         })
     

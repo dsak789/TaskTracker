@@ -79,7 +79,7 @@ exports.adduser = async (req,res)=>{
         }
         const insert = new User({name,email,githubid,username,'password':pwd})
         await insert.save();
-        reg_mail.send_signup_mail(username)
+        await reg_mail.send_signup_mail(username)
         res.json({
             message:"User Registration Successfull..",
             user_details:{name,email,githubid,username,'password':pwd}

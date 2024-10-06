@@ -6,8 +6,8 @@ import dateutil.parser
 
 
 # apiurl = "https://tasktrackerapi.vercel.app"
-# apiurl = "https://tasktrackerapinv2.vercel.app/task"  
-apiurl = "http://localhost:8888/task"
+apiurl = "https://tasktrackerapinv2.vercel.app/task"  
+# apiurl = "http://localhost:8888/task"
 
 def addtask():
     addtaskend = f'{apiurl}/addtask'

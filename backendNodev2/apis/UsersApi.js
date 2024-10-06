@@ -37,6 +37,7 @@ exports.login = async (req,res)=>{
                         "name":user.name,
                         'username':user.username,
                         'githubid':user.githubid,
+                        'email':user.email,
                         "dp_url":gitdata.avatar_url || "https://static.vecteezy.com/system/resources/previews/000/649/115/original/user-icon-symbol-sign-vector.jpg"
                     }
                 })

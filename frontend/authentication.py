@@ -38,7 +38,7 @@ def login():
             else:
                 st.error(f"Invalid Credential! Please Tryagain..{str(res['message'])}")
         else:
-            print(reqstatus.json())
+            # print(reqstatus.json())
             st.error(reqstatus.json()['message'])
     with st.expander("Forgot Password...?"):
         forgotpassword()

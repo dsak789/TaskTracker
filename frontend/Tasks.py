@@ -1,12 +1,13 @@
 import streamlit as st 
 import requests as req 
 from uuid import uuid4
-from datetime import date as dt
+from datetime import datetime, date as dt
+import dateutil.parser
 
 
 # apiurl = "https://tasktrackerapi.vercel.app"
-apiurl = "https://tasktrackerapinv2.vercel.app/task"  
-# apiurl = "http://localhost:8000/task"
+# apiurl = "https://tasktrackerapinv2.vercel.app/task"  
+apiurl = "http://localhost:8888/task"
 
 def addtask():
     addtaskend = f'{apiurl}/addtask'
@@ -47,12 +48,23 @@ def gettasks():
         visualizetasks(resposnes)
     else:
         st.warning(f"{resposnes.json()['message']}")
-    
+
 def visualizetasks(tasks):
     for res in tasks:
         c= st.container()
         c.subheader(f":red[{res['title']}]")
         c.markdown(f"### {res['description']}")
+        c.caption(f"Added On : :green[{res['adddate']}]")
+        if res and 'updatedon' in res and res['updatedon']:
+            if res['status'] == 'Completed':
+                c.caption(f"Completed On: :green[{res['updatedon']}]")
+            elif res['status'] == 'Archieve':
+                c.caption(f"Archieved On: :green[{res['updatedon']}]")
+            elif res['status'] != 'Archieve' and res['status'] !='Completed':
+                c.caption(f"Updated On: :green[{res['updatedon']}]")
+        # else:
+            # c.caption(f"Updated On: :green[Not yet Updated Once]")
+            
         if res['status'] != 'Completed' :
             c.write(f"Status: :orange[{res['status'] }]")
         if res['status'] != "Completed":
@@ -81,7 +93,7 @@ def completed_tasks():
     adminsend = (f'{apiurl}/completed-tasks/{userid}')
     resposnes = req.get(adminsend)
     if resposnes.json()["message"]=="Data Retrieved":
-        st.write("ALL TASKS")
+        # st.write("ALL TASKS")
         # st.json(resposnes.json())
         resposnes = resposnes.json()['Tasks']
         if len(resposnes) == 0:

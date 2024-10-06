@@ -18,12 +18,15 @@ const taskSchema = new mongoose.Schema(
             required:true,
         },
         status : {
-            type:String,
+            type:Object,
             required:true,
         },
         adddate : {
             type:String,
             required:true,
+        },
+        updatedon:{
+            type:String
         }
     }
 )

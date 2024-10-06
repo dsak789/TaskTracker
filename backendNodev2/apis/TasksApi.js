@@ -34,7 +34,7 @@ exports.getTasks = async (req,res) => {
 exports.getUserTasks = async (req,res) => {
     try {
         const userid = req.params.userid
-        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'_id':-1}}])
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'updatedon':-1,'_id':-1}}])
         res.json({
             message:"Data Retrieved",
             message1:`Tasks of ${userid}`,
@@ -52,7 +52,7 @@ exports.getUserTasks = async (req,res) => {
 exports.completedTasks = async (req,res) => {
     try {
         const userid = req.params.userid
-        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'_id':-1}}])
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Completed'}},{'$sort':{'updatedon':-1,'_id':1}}])
         res.json({
             message:`Data Retrieved`,
             message1:`Completed Tasks of ${userid}`,
@@ -72,7 +72,7 @@ exports.completedTasks = async (req,res) => {
 exports.archievedTasks = async (req,res) => {
     try {
         const userid = req.params.userid
-        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'_id':-1}}])
+        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':'Archieve'}},{'$sort':{'updatedon':-1,'_id':-1}}])
         res.json({
             message:`Data Retrieved`,
             message1:`Archieved Tasks of ${userid}`,
@@ -90,11 +90,14 @@ exports.archievedTasks = async (req,res) => {
 
 exports.updateTask =  async (req,res) => {
     try {
+        const dt = new Date()
+        const updt = `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()} ${dt.getHours()}:${dt.getMinutes()}`
         const {taskid, taskStatus } = req.params
-        const update = await Task.updateOne({'id':taskid},{'$set':{'status':taskStatus}})
+        const update = await Task.updateOne({'id':taskid},{'$set':{'status':taskStatus,'updatedon':updt}})
         if (update.modifiedCount == 1){
             res.json({
-                message:"Task updated Successfully"
+                message:`Task updated to ${taskStatus} Successfully`
+                
             })
         }
         else{
@@ -103,6 +106,7 @@ exports.updateTask =  async (req,res) => {
             })
         }
     } catch (error) {
+        console.warn(error)
         res.status(400).json({
             message:"Task not Updated",
             err:error

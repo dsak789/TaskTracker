@@ -27,9 +27,10 @@ def login():
         if reqstatus.status_code == 200:
             res=reqstatus.json()
             if res['message'] == "Login Successfull":
-                st.session_state['image']= getdp(res['user']['githubid']) 
+                st.session_state['image']= res['user']['dp_url'] 
                 st.session_state["login"] = res['user']['name']
                 st.session_state["userid"] = res['user']['username']
+                st.session_state["email"] = res['user']['email']
                 st.session_state["githubid"] = res['user']['githubid']
                 st.success('Login Success')
                 st.rerun()

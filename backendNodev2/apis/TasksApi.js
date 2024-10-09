@@ -90,7 +90,10 @@ exports.archievedTasks = async (req,res) => {
 
 exports.updateTask =  async (req,res) => {
     try {
-        const dt = new Date()
+        const utcdt = new Date()
+        const ist = 5 * 60 * 60 * 1000 + 30 * 60 * 1000
+        const dt = new Date(utcdt.getTime() + ist)
+        
         const updt = `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()} ${dt.getHours()}:${dt.getMinutes()}`
         const {taskid, taskStatus } = req.params
         const update = await Task.updateOne({'id':taskid},{'$set':{'status':taskStatus,'updatedon':updt}})

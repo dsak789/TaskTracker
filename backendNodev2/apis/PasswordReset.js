@@ -178,7 +178,7 @@ if( username == null){
     
 }else{
         const mailoptions= {
-            from:`Task Tracker Admin<studentgrievances@jntugv.edu.in>`,
+            from:`Task Tracker Admin<sbcreations14378@gmail.com>`,
             to:`${user.email}`,
             subject:'Password Reset',
             text:` `,

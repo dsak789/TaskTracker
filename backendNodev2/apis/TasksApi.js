@@ -34,9 +34,23 @@ exports.getTasks = async (req,res) => {
 exports.getUserTasks = async (req,res) => {
     try {
         const userid = req.params.userid
-        const tasks = await Task.aggregate([{'$match':{'userid':userid,'status':{'$in':['Todo','In Progress']}}},{'$sort':{'updatedon':-1,'_id':-1}}])
+        const tasks = await Task.aggregate([
+          {
+            $match: {
+              userid: userid,
+              status: { $in: ["Todo", "In Progress"] },
+            },
+          },
+          {
+            $addFields: {
+              sortDate: { $ifNull: ["$updatedon", "$adddate"] }, // uses adddate if updatedon is missing
+            },
+          },
+          { $sort: { sortDate: -1, _id: -1 } },
+        ]);
+
         res.json({
-            message:"Data Retrieved",
+            message:"Data Retrieved",   
             message1:`Tasks of ${userid}`,
             Tasks:tasks
         })

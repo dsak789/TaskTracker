@@ -11,11 +11,10 @@ const transporter = nodemailer.createTransport({
 
 
 exports.send_signup_mail = async (username)=>{
-    console.log("entered into Signup MAILING")
     try {        
         const details = await User.findOne({'username':username})
         const user = details
-        const body=`<!DOCTYPE html>
+        const body = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -100,14 +99,18 @@ exports.send_signup_mail = async (username)=>{
 
        
 
-        ${user.githubid ? `
+        ${
+          user.githubid
+            ? `
         <p>We've noticed that you've linked your GitHub account. Here is your GitHub ID:</p>
-        <p class="highlight">GitHub ID: <strong>${user.githubid}</strong></p>` : ''}
+        <p class="highlight">GitHub ID: <strong>${user.githubid}</strong></p>`
+            : ""
+        }
 
         <div class="video-section">
             <h3>How to Use Task Tracker</h3>
             <p>Watch this video to learn how to use the Task Tracker app efficiently:</p>
-            <p>You can <a href="https://github.com/Panga-Deepthi/Html/raw/3180bf27fe3c7949306b35199f9d9f4c54f8b242/Task(09-08)/What's%20it%20like%20to%20work%20at%20Google_.mp4" target="_blank">click here</a> to watch the video in a new tab.</p>
+            <p>You can <a href="https://drive.google.com/file/d/1yPBS4xffJ1hIpMUByqv70T0jonj0JNOi/view?usp=sharing" target="_blank">click here</a> to watch the video in a new tab.</p>
             <p>You can also access this video in the app’s profile settings under the “How to use” section.</p>
         </div>
 
@@ -125,7 +128,7 @@ exports.send_signup_mail = async (username)=>{
 </body>
 </html>
 
-`
+`;
 
         const mailoptions= {
             from:`Task Tracker Admin<abcreations14378@gmail.com>`,

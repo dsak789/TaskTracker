@@ -1,7 +1,7 @@
-import React, { createContext, ReactNode, useEffect, useReducer } from "react";
+import React, { createContext, ReactNode, useReducer } from "react";
 import { AuthContextType } from "../Interfaces-Types";
 import { authReducer, initialAuthState } from "../reducers/authReducer";
-import { parseJWT } from "../JWTParser";
+// import { parseJWT } from "../JWTParser";
 
 interface AuthProps {
   children: ReactNode;

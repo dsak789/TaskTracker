@@ -1,0 +1,38 @@
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.loading-indicator {
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  border: 10px solid transparent;
+  border-top: 10px solid red;
+  border-bottom: 10px solid red;
+}
+/* .loading-indicator{
+  animation-fill-mode: forwards;
+  animation: bounce 2s ease-in-out;
+  transition: all; 
+  animation: bounce initial 2s;
+  letter-spacing: 20px;
+  background-color: black; 
+} */
